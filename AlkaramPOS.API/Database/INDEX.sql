@@ -1,0 +1,5 @@
+CREATE INDEX IX_Products_SKU ON Products(SKU)
+CREATE INDEX IX_Products_Barcode ON Products(Barcode)
+CREATE INDEX IX_Sales_InvoiceNumber ON Sales(InvoiceNumber)
+CREATE INDEX IX_StockMovements_ProductId ON StockMovements(ProductId)
+CREATE INDEX IX_AuditLogs_UserId ON AuditLogs(UserId)

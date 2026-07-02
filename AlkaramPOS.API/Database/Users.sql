@@ -1,0 +1,14 @@
+CREATE TABLE Users (
+    Id INT PRIMARY KEY IDENTITY,
+    BranchId INT,
+    FullName NVARCHAR(150) NOT NULL,
+    Email NVARCHAR(150) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(MAX) NOT NULL,
+    Role NVARCHAR(50) NOT NULL,
+    IsActive BIT DEFAULT 1,
+    FailedLoginAttempts INT DEFAULT 0,
+    LastLogin DATETIME NULL,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+
+    FOREIGN KEY (BranchId) REFERENCES Branches(Id)
+)

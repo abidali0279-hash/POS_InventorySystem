@@ -1,0 +1,8 @@
+CREATE TABLE Branches (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(150) NOT NULL,
+    Address NVARCHAR(300),
+    Phone NVARCHAR(20),
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME DEFAULT GETDATE()
+)

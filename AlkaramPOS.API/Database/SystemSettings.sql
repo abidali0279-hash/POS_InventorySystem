@@ -1,0 +1,5 @@
+CREATE TABLE SystemSettings (
+    Id INT PRIMARY KEY IDENTITY,
+    [Key] NVARCHAR(100),
+    [Value] NVARCHAR(MAX)
+)

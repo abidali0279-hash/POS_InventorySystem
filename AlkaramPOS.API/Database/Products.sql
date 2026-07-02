@@ -1,0 +1,18 @@
+CREATE TABLE Products (
+    Id INT PRIMARY KEY IDENTITY,
+    BranchId INT,
+    CategoryId INT,
+    Name NVARCHAR(200) NOT NULL,
+    SKU NVARCHAR(100) UNIQUE NOT NULL,
+    Barcode NVARCHAR(100) NULL,
+    Unit NVARCHAR(50),
+    PriceInPKR DECIMAL(18,2) NOT NULL,
+    CurrentStock DECIMAL(18,2) DEFAULT 0,
+    ReorderLevel DECIMAL(18,2) DEFAULT 0,
+    IsActive BIT DEFAULT 1,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME NULL,
+
+    FOREIGN KEY (BranchId) REFERENCES Branches(Id),
+    FOREIGN KEY (CategoryId) REFERENCES Categories(Id)
+)

@@ -1,0 +1,18 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# DLLs
+*.dll
+*.exe
+
+# Logs
+*.log
+
+# ASP.NET Development Settings
+appsettings.Development.json

@@ -25,4 +25,14 @@ public interface ISaleRepository
     Task AddSaleReversalAsync(SaleReversal reversal);
 
     Task<List<Sale>> GetSalesAsync();
+
+    Task<decimal> GetTotalRevenueAsync();
+
+    Task<int> GetCompletedSalesCountAsync();
+
+    Task<int> GetReversedSalesCountAsync();
+
+    Task<List<(string ProductName, int Quantity)>> GetTopSellingProductsAsync(int count = 5);
+
+    Task<List<string>> GetLowStockProductsAsync();
 }

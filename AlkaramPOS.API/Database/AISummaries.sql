@@ -1,0 +1,12 @@
+
+
+CREATE TABLE AISummaries
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Summary NVARCHAR(MAX) NOT NULL,
+    Revenue DECIMAL(18,2) NOT NULL,
+    CompletedSales INT NOT NULL,
+    ReversedSales INT NOT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+

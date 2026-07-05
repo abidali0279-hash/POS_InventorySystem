@@ -20,6 +20,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Sale> Sales { get; set; }
 
+    public DbSet<AISummary> AISummaries { get; set; }
+
     public DbSet<SaleItem> SaleItems { get; set; }
 
     public DbSet<Payment> Payments { get; set; }

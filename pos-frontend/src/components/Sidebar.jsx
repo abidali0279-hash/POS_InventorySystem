@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-
 import {
   FiHome,
   FiBox,
@@ -9,7 +8,9 @@ import {
   FiClipboard,
   FiBarChart2,
   FiLayers,
-  FiX
+  FiCpu,
+  FiX,
+  FiMenu
 } from "react-icons/fi";
 
 function Sidebar({
@@ -189,6 +190,15 @@ function Sidebar({
               >
                 <FiBarChart2 />
                 Reports
+              </NavLink>
+
+              <NavLink
+                to="/ai-reports"
+                className={menuClass}
+                onClick={closeSidebar}
+              >
+                <FiCpu />
+                AI Reports
               </NavLink>
 
             </>

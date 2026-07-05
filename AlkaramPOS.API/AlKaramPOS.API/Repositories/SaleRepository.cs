@@ -70,4 +70,37 @@ public class SaleRepository : ISaleRepository
     {
         return await _context.Sales.Include(x => x.Cashier).OrderByDescending(x => x.CreatedAt).ToListAsync();
     }
+
+    public async Task<decimal> GetTotalRevenueAsync()
+    {
+        return await _context.Sales.Where(x => x.Status == "Completed").SumAsync(x => x.TotalAmount);
+    }
+
+    public async Task<int> GetCompletedSalesCountAsync()
+    {
+        return await _context.Sales.CountAsync(x => x.Status == "Completed");
+    }
+
+    public async Task<int> GetReversedSalesCountAsync()
+    {
+        return await _context.Sales.CountAsync(x => x.Status == "Reversed");
+    }
+
+    public async Task<List<(string ProductName, int Quantity)>> GetTopSellingProductsAsync(int count = 5)
+    {
+        var data = await _context.SaleItems.Include(x => x.Product).GroupBy(x => x.Product!.Name).Select(g => new
+            {
+                ProductName = g.Key,
+                Quantity = g.Sum(x => x.Quantity)
+            })
+            .OrderByDescending(x => x.Quantity).Take(count).ToListAsync();
+
+        return data
+            .Select(x => (x.ProductName, (int)x.Quantity)).ToList();
+    }
+
+    public async Task<List<string>> GetLowStockProductsAsync()
+    {
+        return await _context.Products.Where(x => x.CurrentStock <= x.ReorderLevel).Select(x => x.Name).ToListAsync();
+    }
 }

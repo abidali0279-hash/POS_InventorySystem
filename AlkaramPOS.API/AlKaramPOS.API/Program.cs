@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using POS.API.Data;
+using POS.API.Interfaces;
 using POS.API.Interfaces.Repositories;
 using POS.API.Interfaces.Services;
 using POS.API.Models;
@@ -92,6 +93,12 @@ builder.Services.AddScoped<IReportService,ReportService>();
 builder.Services.AddScoped<IAuditLogRepository,AuditLogRepository>();
 
 builder.Services.AddScoped<IAuditLogService,AuditLogService>();
+
+builder.Services.AddScoped<IAISummaryRepository,AISummaryRepository>();
+
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<IAIService, AIService>();
 
 
 var app = builder.Build();

@@ -11,6 +11,7 @@ import Inventory from "./pages/Inventory/Inventory";
 import SalesHistory from "./pages/Sales/SalesHistory";
 import Reports from "./pages/Reports/Reports";
 import InventoryHistory from "./pages/Inventory/InventoryHistory";
+import AIReports from "./pages/AIReports/AIReports";
 
 
 function App() {
@@ -84,6 +85,14 @@ function App() {
         element={
         <ProtectedRoute>
           <InventoryHistory />
+        </ProtectedRoute>
+      } />
+
+      <Route
+        path="/ai-reports"
+        element={
+        <ProtectedRoute>
+          <AIReports />
         </ProtectedRoute>
       } />
 

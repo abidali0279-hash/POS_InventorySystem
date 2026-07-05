@@ -12,6 +12,8 @@ import { FaTags } from "react-icons/fa";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FaMoneyBillWave } from "react-icons/fa";
 
+import { generateAISummary } from "../../services/aiService";
+
 function Dashboard() {
 
   const fullName = localStorage.getItem("fullName");
@@ -22,6 +24,8 @@ function Dashboard() {
   const [categories, setCategories] = useState([]);
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [aiSummary, setAiSummary] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -62,6 +66,69 @@ function Dashboard() {
 
     }
   };
+
+  const handleGenerateSummary = async () => {
+
+  try {
+
+    setAiLoading(true);
+
+    const result =
+      await generateAISummary();
+
+    const text = result.summary;
+
+    const executive =
+      text.match(
+        /Executive Summary([\s\S]*?)Business Insights/i
+      );
+
+    const insights =
+      text.match(
+        /Business Insights([\s\S]*?)Recommendations/i
+      );
+
+    const recommendations =
+      text.match(
+        /Recommendations([\s\S]*)/i
+      );
+
+    setAiSummary({
+
+      executive:
+        executive
+          ? executive[1].trim()
+          : "",
+
+      insights:
+        insights
+          ? insights[1].trim()
+          : "",
+
+      recommendations:
+        recommendations
+          ? recommendations[1].trim()
+          : ""
+
+    });
+
+  }
+  catch (error) {
+
+    console.log(error);
+
+    alert(
+      "Failed to generate AI summary."
+    );
+
+  }
+  finally {
+
+    setAiLoading(false);
+
+  }
+
+};
 
   const totalRevenue = sales
   .filter(sale => sale.status === "Completed")
@@ -198,6 +265,125 @@ function Dashboard() {
         </div>
 
       </div>
+
+      {/* AI Business Assistant */}
+
+        <div className="bg-white rounded-xl shadow p-6">
+
+          <div className="flex justify-between items-center mb-5">
+
+            <div>
+
+              <h2 className="text-2xl font-bold">
+
+                AI Business Assistant
+
+              </h2>
+
+              <p className="text-gray-500">
+
+                Analyze your POS data using AI
+
+              </p>
+
+            </div>
+
+              <button
+                onClick={handleGenerateSummary}
+                disabled={aiLoading}
+                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-5 py-3 rounded-xl font-semibold transition"
+              >
+
+                {aiLoading
+                  ? "Generating..."
+                  : "Generate AI Summary"}
+
+              </button>       
+
+              <button
+                onClick={() =>
+                  window.location.href = "/ai-reports"
+                }
+                className="bg-gray-600 hover:bg-black text-white px-5 py-3 rounded-xl font-semibold transition"
+              >
+                View AI Report History
+              </button>
+          
+          </div>
+
+          {aiLoading && (
+
+            <div className="flex items-center gap-3">
+
+              <div className="w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+
+              <span>
+
+                AI is analyzing your business...
+
+              </span>
+
+            </div>
+
+          )}
+
+          {!aiLoading && aiSummary && (
+
+            <div className="space-y-5">
+
+              <div className="bg-blue-50 border-l-4 border-blue-600 rounded-xl p-5">
+
+                <h3 className="text-xl font-bold text-blue-700 mb-2">
+
+                  📊 Executive Summary
+
+                </h3>
+
+                <p className="leading-7 whitespace-pre-wrap">
+
+                  {aiSummary.executive}
+
+                </p>
+
+              </div>
+
+              <div className="bg-yellow-50 border-l-4 border-yellow-500 rounded-xl p-5">
+
+                <h3 className="text-xl font-bold text-yellow-700 mb-2">
+
+                  💡 Business Insights
+
+                </h3>
+
+                <p className="leading-7 whitespace-pre-wrap">
+
+                  {aiSummary.insights}
+
+                </p>
+
+              </div>
+
+              <div className="bg-green-50 border-l-4 border-green-600 rounded-xl p-5">
+
+                <h3 className="text-xl font-bold text-green-700 mb-2">
+
+                  ✅ Recommendations
+
+                </h3>
+
+                <p className="leading-7 whitespace-pre-wrap">
+
+                  {aiSummary.recommendations}
+
+                </p>
+
+              </div>
+
+            </div>
+
+            )}
+
+        </div>
 
       {/* Recent Sales */}
 
